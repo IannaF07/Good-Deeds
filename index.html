@@ -1,0 +1,2463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Deeds</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+        }
+        .iphone-frame {
+            width: 375px;
+            height: 812px;
+            border: 16px solid #333;
+            border-radius: 40px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+            background-color: white;
+        }
+        .screen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.3s ease-in-out;
+            background-color: white;
+        }
+        .hidden-screen {
+            transform: translateX(100%);
+            display: none;
+        }
+        .visible-screen {
+            transform: translateX(0);
+            display: flex;
+        }
+        .slide-out-right {
+            transform: translateX(100%);
+        }
+        .slide-in-left {
+            transform: translateX(0%);
+        }
+        .slide-out-left {
+            transform: translateX(-100%);
+        }
+        .slide-in-right {
+            transform: translateX(0%);
+        }
+
+        .globe-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #e0f2fe;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .globe-logo svg {
+            width: 50px;
+            height: 50px;
+            color: #2196f3;
+        }
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-bottom: 10px;
+        }
+        .btn-blue {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-blue:hover {
+            background-color: #2563eb;
+        }
+        .btn-green {
+            background-color: #22c55e;
+            color: white;
+        }
+        .btn-green:hover {
+            background-color: #16a34a;
+        }
+        .link-text {
+            color: #3b82f6;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            color: #333;
+            font-size: 24px;
+            z-index: 10;
+        }
+        .back-button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .community-feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 10px;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 20px;
+        }
+        .community-feed-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+        .search-icon {
+            width: 24px;
+            height: 24px;
+            color: #555;
+        }
+        .reminder-bell-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0f2fe;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .reminder-bell-icon svg {
+            width: 24px;
+            height: 24px;
+            color: #2196f3;
+        }
+        .search-bar {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .feed-content {
+            flex-grow: 1;
+            width: 100%;
+            overflow-y: auto;
+            padding-bottom: 70px;
+        }
+        .feed-item {
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+        }
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 60px;
+            background-color: white;
+            border-top: 1px solid #e2e8f0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 20;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            font-size: 12px;
+            cursor: pointer;
+            flex: 1;
+        }
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+        }
+        .nav-item.active {
+            color: #3b82f6;
+        }
+        .green-circle-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #22c55e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .green-circle-icon svg {
+            color: white;
+            width: 20px;
+            height: 20px;
+        }
+
+        .profile-header {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            flex: 1;
+        }
+        .stat-number {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+        }
+        .stat-label {
+            font-size: 0.875rem;
+            color: #666;
+        }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #999;
+        }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .profile-info {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #profile-add-icon {
+            width: 20px;
+            height: 20px;
+            margin-left: 8px;
+            /* Removed cursor: pointer and transition for this icon */
+        }
+        #profile-add-icon circle {
+            /* Removed transition for this icon */
+        }
+        .profile-bio {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .organizations-text {
+            font-size: 0.85rem;
+            color: #777;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-sub-nav {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+        .profile-sub-nav-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            color: #777;
+            cursor: pointer; /* Added cursor for clickable sub-nav items */
+        }
+        .profile-sub-nav-item svg {
+            width: 24px;
+            height: 24px;
+        }
+        /* Service section for profile page (no swipe) */
+        .service-section {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 0 20px;
+            box-sizing: border-box;
+            padding-bottom: 20px; /* Space for bottom nav */
+        }
+        .service-placeholder {
+            width: 100%;
+            padding-top: 100%;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .map-screen {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            position: relative;
+            padding: 0;
+        }
+        .map-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            flex-grow: 1;
+        }
+        .map-panel {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 60px);
+            background-color: white;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            transform: translateY(calc(100% - 80px));
+            transition: transform 0.3s ease-out;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .map-panel-handle {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            padding: 20px 0;
+            box-sizing: border-box;
+        }
+        .map-panel-handle-bar {
+            width: 40px;
+            height: 5px;
+            background-color: #ccc;
+            border-radius: 2.5px;
+        }
+        .map-panel-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 0 20px 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .resource-box {
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+            font-size: 0.9rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .description-screen {
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+        .description-page-content {
+            flex-grow: 1;
+            width: 100%;
+            overflow-y: auto;
+            padding-bottom: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .description-image-placeholder {
+            width: 90%;
+            height: 200px;
+            background-color: #e0e0e0;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            font-size: 1.2rem;
+            overflow: hidden;
+        }
+        .description-header-card {
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            width: 90%;
+            display: flex;
+            align-items: center;
+        }
+        .description-header-card .green-circle-icon {
+            flex-shrink: 0;
+            margin-right: 15px;
+        }
+        .description-header-info {
+            flex-grow: 1;
+        }
+        .description-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        .description-address {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: left;
+        }
+        .description-date-time-card {
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            width: 90%;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+        .description-date-time-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .description-date-time-item h4 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .description-date-time-item p {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .description-details-card {
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            width: 90%;
+            text-align: left;
+        }
+        .description-details-card h4 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .description-details-card p {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .description-details-card ul {
+            list-style: disc;
+            margin-left: 20px;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        .description-details-card ul li {
+            margin-bottom: 5px;
+        }
+
+        .message-screen {
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+        .message-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 20px;
+        }
+        .message-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .message-content {
+            flex-grow: 1;
+            width: 100%;
+            overflow-y: auto;
+            padding-bottom: 70px;
+            padding-top: 60px;
+            box-sizing: border-box;
+        }
+        .chat-preview-item {
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .chat-preview-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            margin-right: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+            color: #999;
+            flex-shrink: 0;
+        }
+        .chat-preview-info {
+            flex-grow: 1;
+        }
+        .chat-preview-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        .chat-preview-last-message {
+            font-size: 0.9rem;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .upcoming-events-screen {
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+        .upcoming-events-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 20px;
+        }
+        .upcoming-events-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .upcoming-events-content {
+            flex-grow: 1;
+            width: 100%;
+            overflow-y: auto;
+            padding-bottom: 70px;
+            padding-top: 60px;
+            box-sizing: border-box;
+        }
+
+        .list-screen {
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+        .list-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 20px;
+        }
+        .list-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .list-content {
+            flex-grow: 1;
+            width: 100%;
+            overflow-y: auto;
+            padding-bottom: 70px;
+            padding-top: 60px;
+            box-sizing: border-box;
+        }
+        /* Removed .list-item as it will now use .feed-item styling */
+
+        /* New style for the circular logo */
+        .circular-logo {
+            width: 40px; /* Adjust size as needed */
+            height: 40px; /* Adjust size as needed */
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px; /* Space between logo and text */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e0f2fe; /* Background to match original globe-logo */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow to match original globe-logo */
+        }
+        .circular-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Styles for the new settings page */
+        .settings-screen {
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+        .settings-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 20px;
+        }
+        .settings-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .settings-content {
+            flex-grow: 1;
+            width: 100%;
+            overflow-y: auto;
+            padding-bottom: 70px;
+            padding-top: 60px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .settings-section {
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            width: 90%;
+            text-align: left;
+        }
+        .settings-section h3 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .settings-section label {
+            display: block;
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .settings-section input[type="text"],
+        .settings-section input[type="password"],
+        .settings-section input[type="date"],
+        .settings-section textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .settings-section textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .settings-section .btn {
+            width: auto;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        .profile-picture-upload-area {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+        .profile-picture-upload-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-picture-upload-area svg {
+            color: #999;
+            width: 40px;
+            height: 40px;
+        }
+        .profile-picture-upload-area input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .password-input-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .password-input-wrapper input {
+            padding-right: 50px; /* Make space for the button */
+            margin-bottom: 0; /* Remove default margin-bottom from input-field */
+        }
+        .toggle-password-visibility {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #3b82f6;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+        .toggle-password-visibility:hover {
+            background-color: #e0f2fe;
+        }
+
+        /* Styles for the new create service page */
+        .create-service-screen {
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+        .create-service-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 20px;
+        }
+        .create-service-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .create-service-content {
+            flex-grow: 1;
+            width: 100%;
+            overflow-y: auto;
+            padding-bottom: 70px;
+            padding-top: 60px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .create-service-section {
+            background-color: #f8f8f8;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            width: 90%;
+            text-align: left;
+        }
+        .create-service-section label {
+            display: block;
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .create-service-section input[type="text"],
+        .create-service-section input[type="date"],
+        .create-service-section input[type="time"],
+        .create-service-section textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .create-service-section textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <div class="iphone-frame">
+        <div id="login-page" class="screen visible-screen">
+            <div class="globe-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold mb-8 text-gray-800">Login</h1>
+            <button id="group-btn" class="btn btn-blue">Group</button>
+            <button id="person-btn" class="btn btn-green">Person</button>
+        </div>
+
+        <div id="login-to-account-page" class="screen hidden-screen">
+            <button id="back-btn" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="globe-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold mb-8 text-gray-800">Login to Account</h1>
+            <input type="text" id="login-username" placeholder="Username" class="input-field mb-4 rounded-lg">
+            <input type="password" id="login-password" placeholder="Password" class="input-field mb-4 rounded-lg">
+            <a href="#" class="link-text text-right w-full mb-6">Forgot Password?</a>
+            <button id="login-btn" class="btn btn-blue rounded-lg">Login</button>
+            <p class="text-sm text-gray-600 mt-4">Need to make an account?</p>
+        </div>
+
+        <div id="community-feed-page" class="screen hidden-screen" style="justify-content: flex-start; padding-top: 20px;">
+            <div class="community-feed-header">
+                <div class="flex items-center">
+                    <!-- Circular Logo Added Here -->
+                    <div class="circular-logo">
+                        <img src="https://storage.googleapis.com/gemini-generated-images-prod/ai-content/f74adf97-c95d-4c65-bd83-751009c87a83_files/image_92dc3c.png" alt="Good Deeds Logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/e0f2fe/2196f3?text=Logo';">
+                    </div>
+                    <h1 class="text-2xl font-bold">Good <span class="text-blue-500">Deeds</span></h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="search-icon">
+                        <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z" clip-rule="evenodd" />
+                    </svg>
+                    <div id="reminder-bell-icon" class="reminder-bell-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-blue-500">
+                            <path d="M10 20H14C14 21.1 13.1 22 12 22S10 21.1 10 20ZM20 17V13.5C20 10.43 18.39 7.86 15.5 7.15V6.5C15.5 5.67 14.83 5 14 5H10C9.17 5 8.5 5.67 8.5 6.5V7.15C5.61 7.86 4 10.43 4 13.5V17L2 19V20H22V19L20 17ZM18 15.21L16 17H8L6 15.21V13.5C6 11.02 7.5 9.07 9.75 8.5V6.5H14.25V8.5C16.5 9.07 18 11.02 18 13.5V15.21Z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <input type="text" placeholder="Search..." class="search-bar mt-20 rounded-lg">
+
+            <div class="feed-content">
+                <div class="feed-item clickable-item"
+                    data-title="Thanksgiving Food Drive"
+                    data-address="123 Elms St., Richmond, VA"
+                    data-date="November 27, 2025"
+                    data-time="11 am - 3pm"
+                    data-description="We will be serving food to those who are in need of food."
+                    data-needs='["package food", "serve food", "direct in parking lot"]'>
+                    <h3 class="font-semibold text-lg mb-2">Community service feed</h3>
+                    <p class="text-gray-600">This is a placeholder for your community service updates. More content will appear here.</p>
+                    <div class="w-full h-32 bg-gray-200 rounded-lg mt-4 flex items-center justify-center text-gray-500">
+                        Image/Content Placeholder
+                    </div>
+                </div>
+                <div class="feed-item clickable-item"
+                    data-title="Park Cleanup Day"
+                    data-address="456 Oak Ave, Townsville, VA"
+                    data-date="December 5, 2025"
+                    data-time="9 am - 12 pm"
+                    data-description="Join us to help clean up the local park and make it beautiful for everyone."
+                    data-needs='["collect trash", "rake leaves", "plant flowers"]'>
+                    <h3 class="font-semibold text-lg mb-2">Upcoming Event</h3>
+                    <p class="text-gray-600">Details about an upcoming event will be displayed here.</p>
+                    <div class="w-full h-32 bg-gray-200 rounded-lg mt-4 flex items-center justify-center text-gray-500">
+                        Event Image Placeholder
+                    </div>
+                </div>
+                <div class="feed-item clickable-item"
+                    data-title="Animal Shelter Volunteering"
+                    data-address="789 Pine Ln, Villageton, VA"
+                    data-date="December 12, 2025"
+                    data-time="1 pm - 4 pm"
+                    data-description="Help care for animals at the local shelter. Your support makes a difference!"
+                    data-needs='["walk dogs", "clean kennels", "socialize with cats"]'>
+                    <h3 class="font-semibold text-lg mb-2">Volunteer Opportunity</h3>
+                    <p class="text-gray-600">Find new ways to contribute to your community.</p>
+                    <div class="w-full h-32 bg-gray-200 rounded-lg mt-4 flex items-center justify-center text-gray-500">
+                        Opportunity Image Placeholder
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <div class="nav-item" id="nav-item-push-pin">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M17.59 3.59c-.4-.4-1.04-.4-1.44 0L12 7.74 7.85 3.59c-.4-.4-1.04-.4-1.44 0-.4.4-.4 1.04 0 1.44L10.56 9 6.41 13.15c-.4.4-.4 1.04 0 1.44.4.4 1.04.4 1.44 0L12 10.26l4.15 4.15c.4.4 1.04.4 1.44 0 .4-.4.4-1.04 0-1.44L13.44 9l4.15-4.15c.4-.4.4-1.04 0-1.44zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.385 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-message">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-home">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 5.69L17 10.19V18H15V12H9V18H7V10.19L12 5.69M12 3L2 12H5V20H11V14H13V20H19V12H22L12 3Z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-heart">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-profile">
+                    <div class="green-circle-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="profile-page" class="screen hidden-screen" style="justify-content: flex-start; padding-top: 20px;">
+            <button id="profile-back-btn" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="profile-header">
+                <div class="profile-stats">
+                    <div class="stat-item" id="stat-following">
+                        <span class="stat-number">100</span>
+                        <span class="stat-label">Following</span>
+                    </div>
+                    <div class="stat-item" id="stat-followers">
+                        <span class="stat-number">130</span>
+                        <span class="stat-label">Followers</span>
+                    </div>
+                    <div class="stat-item" id="stat-group-members">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Group Members</span>
+                    </div>
+                </div>
+                <div class="profile-avatar">
+                    <img id="profile-avatar-img" src="https://placehold.co/100x100/e0e0e0/999?text=Profile" alt="Profile Picture">
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name" id="profile-display-name">
+                        Your Name
+                        <svg id="profile-add-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-2 text-blue-500">
+                            <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clip-rule="evenodd" />
+                        </svg>
+                    </h2>
+                    <p class="profile-bio" id="profile-display-bio">Quick Bio</p>
+                </div>
+                <p class="organizations-text">organizations you're in ~ school ~ club... see more</p>
+            </div>
+
+            <div class="profile-sub-nav">
+                <div class="profile-sub-nav-item" id="profile-sub-nav-add-service">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                </div>
+                <div class="profile-sub-nav-item" id="profile-sub-nav-view-services">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="profile-sub-nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.125A7.5 7.5 0 0112 16.5C9.76 16.5 7.77 17.58 6.53 19.125M12 12a3 3 0 100-6 3 3 0 000 6zM12 2.25a9.75 9.75 0 00-9.75 9.75c0 3.79 1.83 7.23 4.68 9.38M12 2.25a9.75 9.75 0 019.75 9.75c0 3.79-1.83 7.23-4.68 9.38" />
+                    </svg>
+                </div>
+                <div class="profile-sub-nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="profile-sub-nav-item" id="nav-item-settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                    </svg>
+                </div>
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 self-start ml-5" id="current-service-section-title">Service Completed</h3>
+            <div class="service-section" id="service-completed-section">
+                <div class="service-placeholder clickable-item"
+                    data-title="Food Drive Recap"
+                    data-address="Local Community Center"
+                    data-date="November 28, 2025"
+                    data-time="All Day"
+                    data-description="A successful food drive helped many families in need. Thanks to all volunteers!"
+                    data-needs='[]'>
+                    Image
+                </div>
+                <div class="service-placeholder clickable-item"
+                    data-title="Park Beautification"
+                    data-address="Central Park"
+                    data-date="December 6, 2025"
+                    data-time="Morning"
+                    data-description="The park is now cleaner and greener thanks to dedicated volunteers."
+                    data-needs='[]'>
+                    Image
+                </div>
+                <div class="service-placeholder clickable-item"
+                    data-title="Animal Adoption Event"
+                    data-address="City Animal Shelter"
+                    data-date="December 13, 2025"
+                    data-time="Afternoon"
+                    data-description="Many animals found their forever homes at our adoption event."
+                    data-needs='[]'>
+                    Image
+                </div>
+                <div class="service-placeholder clickable-item"
+                    data-title="Winter Coat Collection"
+                    data-address="Community Hall"
+                    data-date="January 10, 2026"
+                    data-time="9 am - 5 pm"
+                    data-description="Collecting warm coats for those in need during the cold winter months."
+                    data-needs='["sort donations", "distribute coats"]'>
+                    Image
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <div class="nav-item" id="nav-item-push-pin-profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M17.59 3.59c-.4-.4-1.04-.4-1.44 0L12 7.74 7.85 3.59c-.4-.4-1.04-.4-1.44 0-.4.4-.4 1.04 0 1.44L10.56 9 6.41 13.15c-.4.4-.4 1.04 0 1.44.4.4 1.04.4 1.44 0L12 10.26l4.15 4.15c.4.4 1.04.4 1.44 0 .4-.4.4-1.04 0-1.44L13.44 9l4.15-4.15c.4-.4.4-1.04 0-1.44zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.385 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-message-profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-home-profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 5.69L17 10.19V18H15V12H9V18H7V10.19L12 5.69M12 3L2 12H5V20H11V14H13V20H19V12H22L12 3Z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-heart-profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-profile-profile">
+                    <div class="green-circle-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="map-page" class="screen hidden-screen map-screen">
+            <button id="map-back-btn" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <iframe
+                class="map-iframe"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3105.006969566236!2d-77.4360499846487!3d38.90023407957134!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b6379532d5b6e7%3A0x6b7c5e5d5e5d5e5d!2sHomeless%20Shelter!5e0!3m2!1sen!2sus!4v1678912345678!5m2!1sen!2sus"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+
+            <div id="map-panel" class="map-panel">
+                <div class="map-panel-handle">
+                    <div class="map-panel-handle-bar"></div>
+                </div>
+                <div class="map-panel-content" id="map-panel-content">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Resource Centers</h3>
+                    <div class="resource-box">
+                        <p>Homeless Shelter A</p>
+                        <p class="text-sm text-gray-500">123 Main St, City</p>
+                    </div>
+                    <div class="resource-box">
+                        <p>Food Bank B</p>
+                        <p class="text-sm text-gray-500">456 Oak Ave, Town</p>
+                    </div>
+                    <div class="resource-box">
+                        <p>Community Clinic C</p>
+                        <p class="text-sm text-gray-500">789 Pine Ln, Village</p>
+                    </div>
+                    <div class="resource-box">
+                        <p>Homeless Shelter D</p>
+                        <p class="text-sm text-gray-500">101 Elm St, City</p>
+                    </div>
+                    <div class="resource-box">
+                        <p>Food Bank E</p>
+                        <p class="text-sm text-gray-500">202 Maple Ave, Town</p>
+                    </div>
+                    <div class="resource-box">
+                        <p>Community Clinic F</p>
+                        <p class="text-sm text-gray-500">303 Birch Ln, Village</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <div class="nav-item" id="nav-item-push-pin-map">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M17.59 3.59c-.4-.4-1.04-.4-1.44 0L12 7.74 7.85 3.59c-.4-.4-1.04-.4-1.44 0-.4.4-.4 1.04 0 1.44L10.56 9 6.41 13.15c-.4.4-.4 1.04 0 1.44.4.4 1.04.4 1.44 0L12 10.26l4.15 4.15c.4.4 1.04.4 1.44 0 .4-.4.4-1.04 0-1.44L13.44 9l4.15-4.15c.4-.4.4-1.04 0-1.44zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.385 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-message-map">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-home-map">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 5.69L17 10.19V18H15V12H9V18H7V10.19L12 5.69M12 3L2 12H5V20H11V14H13V20H19V12H22L12 3Z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-heart-map">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-profile-map">
+                    <div class="green-circle-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="description-page" class="screen hidden-screen description-screen">
+            <button id="description-back-btn" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="description-page-content">
+                <div class="description-image-placeholder">
+                    Image Placeholder
+                </div>
+
+                <div class="description-header-card">
+                    <div class="green-circle-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="description-header-info">
+                        <h3 id="description-card-title" class="description-title">Event Title</h3>
+                        <p id="description-card-address" class="description-address">Address</p>
+                    </div>
+                </div>
+
+                <div class="description-date-time-card">
+                    <div class="description-date-time-item">
+                        <h4>Date:</h4>
+                        <p id="description-card-date">Date Value</p>
+                    </div>
+                    <div class="description-date-time-item">
+                        <h4>Time:</h4>
+                        <p id="description-card-time">Time Value</p>
+                    </div>
+                </div>
+
+                <div class="description-details-card">
+                    <p id="description-card-text" class="mb-4">
+                        This is a detailed description of the event or service. It will explain what the event is about,
+                        who it benefits, and any other relevant information.
+                    </p>
+                    <h4 class="mb-2">We need people to:</h4>
+                    <ul id="description-card-needs-list">
+                        <li>List item 1</li>
+                        <li>List item 2</li>
+                        <li>List item 3</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <div class="nav-item" id="nav-item-push-pin-description">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M17.59 3.59c-.4-.4-1.04-.4-1.44 0L12 7.74 7.85 3.59c-.4-.4-1.04-.4-1.44 0-.4.4-.4 1.04 0 1.44L10.56 9 6.41 13.15c-.4.4-.4 1.04 0 1.44.4.4 1.04.4 1.44 0L12 10.26l4.15 4.15c.4.4 1.04.4 1.44 0 .4-.4.4-1.04 0-1.44L13.44 9l4.15-4.15c.4-.4.4-1.04 0-1.44zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.385 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-message-description">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-home-description">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 5.69L17 10.19V18H15V12H9V18H7V10.19L12 5.69M12 3L2 12H5V20H11V14H13V20H19V12H22L12 3Z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-heart-description">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-profile-description">
+                    <div class="green-circle-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="message-page" class="screen hidden-screen message-screen">
+            <button id="message-back-btn" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="message-header">
+                <h1>Messages</h1>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-gray-500">
+                    <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <input type="text" placeholder="Search messages..." class="search-bar rounded-lg mt-20">
+
+            <div class="message-content">
+                <div class="chat-preview-item">
+                    <div class="chat-preview-avatar">JD</div>
+                    <div class="chat-preview-info">
+                        <div class="chat-preview-name">John Doe</div>
+                        <div class="chat-preview-last-message">Hey, are you free to volunteer next week?</div>
+                    </div>
+                </div>
+                <div class="chat-preview-item">
+                    <div class="chat-preview-avatar">JS</div>
+                    <div class="chat-preview-info">
+                        <div class="chat-preview-name">Jane Smith</div>
+                        <div class="chat-preview-last-message">Thanks for your help at the food drive!</div>
+                    </div>
+                </div>
+                <div class="chat-preview-item">
+                    <div class="chat-preview-avatar">Org</div>
+                    <div class="chat-preview-info">
+                        <div class="chat-preview-name">Local Charity Org</div>
+                        <div class="chat-preview-last-message">Reminder: Meeting at 3 PM today.</div>
+                    </div>
+                </div>
+                <div class="chat-preview-item">
+                    <div class="chat-preview-avatar">AM</div>
+                    <div class="chat-preview-info">
+                        <div class="chat-preview-name">Alice Miller</div>
+                        <div class="chat-preview-last-message">Sure, I can help with that.</div>
+                    </div>
+                </div>
+                <div class="chat-preview-item">
+                    <div class="chat-preview-avatar">BB</div>
+                    <div class="chat-preview-info">
+                        <div class="chat-preview-name">Bob Brown</div>
+                        <div class="chat-preview-last-message">Got it, see you there!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <div class="nav-item" id="nav-item-push-pin-message">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M17.59 3.59c-.4-.4-1.04-.4-1.44 0L12 7.74 7.85 3.59c-.4-.4-1.04-.4-1.44 0-.4.4-.4 1.04 0 1.44L10.56 9 6.41 13.15c-.4.4-.4 1.04 0 1.44.4.4 1.04.4 1.44 0L12 10.26l4.15 4.15c.4.4 1.04.4 1.44 0 .4-.4.4-1.04 0-1.44L13.44 9l4.15-4.15c.4-.4.4-1.04 0-1.44zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.385 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-message-message">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-home-message">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 5.69L17 10.19V18H15V12H9V18H7V10.19L12 5.69M12 3L2 12H5V20H11V14H13V20H19V12H22L12 3Z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-heart-message">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-profile-message">
+                    <div class="green-circle-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="upcoming-events-page" class="screen hidden-screen upcoming-events-screen">
+            <button id="upcoming-events-back-btn" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="upcoming-events-header">
+                <h1>Upcoming Events</h1>
+            </div>
+            <div class="upcoming-events-content">
+                <div class="feed-item clickable-item"
+                    data-title="Winter Coat Drive"
+                    data-address="Community Hall, 789 Elm St, City"
+                    data-date="January 15, 2026"
+                    data-time="10 am - 4 pm"
+                    data-description="Collecting warm coats for those in need during the cold winter months. All sizes welcome."
+                    data-needs='["sort donations", "distribute coats", "help with logistics"]'>
+                    <h3 class="font-semibold text-lg mb-2">Winter Coat Drive</h3>
+                    <p class="text-gray-600">Join us to collect and distribute coats for the community.</p>
+                    <div class="w-full h-32 bg-gray-200 rounded-lg mt-4 flex items-center justify-center text-gray-500">
+                        Coat Drive Image Placeholder
+                    </div>
+                </div>
+                <div class="feed-item clickable-item"
+                    data-title="Soup Kitchen Service"
+                    data-address="City Soup Kitchen, 101 Oak Ave, Town"
+                    data-date="January 22, 2026"
+                    data-time="5 pm - 8 pm"
+                    data-description="Help prepare and serve warm meals to the homeless and needy in our city."
+                    data-needs='["prepare food", "serve food", "clean up"]'>
+                    <h3 class="font-semibold text-lg mb-2">Soup Kitchen Service</h3>
+                    <p class="text-gray-600">Volunteer to help serve meals at the local soup kitchen.</p>
+                    <div class="w-full h-32 bg-gray-200 rounded-lg mt-4 flex items-center justify-center text-gray-500">
+                        Soup Kitchen Image Placeholder
+                    </div>
+                </div>
+                <div class="feed-item clickable-item"
+                    data-title="Blood Donation Drive"
+                    data-address="Community Health Center, 202 Pine Ln, Village"
+                    data-date="February 1, 2026"
+                    data-time="9 am - 3 pm"
+                    data-description="Donate blood and save lives! Your contribution is vital for our community's health."
+                    data-needs='["assist donors", "registration help", "refreshment station"]'>
+                    <h3 class="font-semibold text-lg mb-2">Blood Donation Drive</h3>
+                    <p class="text-gray-600">Support our community by donating blood.</p>
+                    <div class="w-full h-32 bg-gray-200 rounded-lg mt-4 flex items-center justify-center text-gray-500">
+                        Blood Drive Image Placeholder
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <div class="nav-item" id="nav-item-push-pin-upcoming">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M17.59 3.59c-.4-.4-1.04-.4-1.44 0L12 7.74 7.85 3.59c-.4-.4-1.04-.4-1.44 0-.4.4-.4 1.04 0 1.44L10.56 9 6.41 13.15c-.4.4-.4 1.04 0 1.44.4.4 1.04.4 1.44 0L12 10.26l4.15 4.15c.4.4 1.04.4 1.44 0 .4-.4.4-1.04 0-1.44L13.44 9l4.15-4.15c.4-.4.4-1.04 0-1.44zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.385 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-message-upcoming">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-home-upcoming">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 5.69L17 10.19V18H15V12H9V18H7V10.19L12 5.69M12 3L2 12H5V20H11V14H13V20H19V12H22L12 3Z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-heart-upcoming">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-profile-upcoming">
+                    <div class="green-circle-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="list-page" class="screen hidden-screen list-screen">
+            <button id="list-back-btn" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="list-header">
+                <h1 id="list-page-title">List Title</h1>
+            </div>
+            <div class="list-content" id="list-content">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+            <div class="bottom-nav">
+                <div class="nav-item" id="nav-item-push-pin-list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M17.59 3.59c-.4-.4-1.04-.4-1.44 0L12 7.74 7.85 3.59c-.4-.4-1.04-.4-1.44 0-.4.4-.4 1.04 0 1.44L10.56 9 6.41 13.15c-.4.4-.4 1.04 0 1.44.4.4 1.04.4 1.44 0L12 10.26l4.15 4.15c.4.4 1.04.4 1.44 0 .4-.4.4-1.04 0-1.44L13.44 9l4.15-4.15c.4-.4.4-1.04 0-1.44zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.385 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-message-list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-home-list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 5.69L17 10.19V18H15V12H9V18H7V10.19L12 5.69M12 3L2 12H5V20H11V14H13V20H19V12H22L12 3Z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-heart-list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-profile-list">
+                    <div class="green-circle-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Settings Page -->
+        <div id="settings-page" class="screen hidden-screen settings-screen">
+            <button id="settings-back-btn" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="settings-header">
+                <h1>Settings</h1>
+            </div>
+            <div class="settings-content">
+                <div class="profile-picture-upload-area">
+                    <img id="profile-pic-preview" src="https://placehold.co/120x120/e0e0e0/999?text=Add+Photo" alt="Profile Picture">
+                    <input type="file" id="profile-pic-upload" accept="image/*">
+                </div>
+
+                <div class="settings-section">
+                    <h3>Personal Information</h3>
+                    <label for="setting-name">Name:</label>
+                    <input type="text" id="setting-name" value="Your Name">
+
+                    <label for="setting-birthday">Birthday:</label>
+                    <input type="date" id="setting-birthday" value="2000-01-01">
+
+                    <label for="setting-bio">Bio:</label>
+                    <textarea id="setting-bio">Quick Bio</textarea>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Account Settings</h3>
+                    <label for="setting-username">Username:</label>
+                    <input type="text" id="setting-username" value="">
+
+                    <label for="setting-location">Location:</label>
+                    <input type="text" id="setting-location" value="Richmond, VA">
+
+                    <label for="setting-password">Password:</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="setting-password" value="">
+                        <button type="button" id="toggle-password-visibility" class="toggle-password-visibility">Show</button>
+                    </div>
+                    <button class="btn btn-blue mt-2">Change Password</button>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Organizations</h3>
+                    <p class="text-gray-600 text-sm mb-2">Organizations you are a part of:</p>
+                    <ul id="setting-organizations-list" class="list-disc ml-5 text-gray-700 text-sm">
+                        <li>Organization A</li>
+                        <li>Organization B</li>
+                    </ul>
+                    <button class="btn btn-green mt-2">Manage Organizations</button>
+                </div>
+
+                <button id="save-settings-btn" class="btn btn-blue mt-5 w-90">Save Changes</button>
+            </div>
+            <div class="bottom-nav">
+                <div class="nav-item" id="nav-item-push-pin-settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M17.59 3.59c-.4-.4-1.04-.4-1.44 0L12 7.74 7.85 3.59c-.4-.4-1.04-.4-1.44 0-.4.4-.4 1.04 0 1.44L10.56 9 6.41 13.15c-.4.4-.4 1.04 0 1.44.4.4 1.04.4 1.44 0L12 10.26l4.15 4.15c.4.4 1.04.4 1.44 0 .4-.4.4-1.04 0-1.44L13.44 9l4.15-4.15c.4-.4.4-1.04 0-1.44zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.385 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-message-settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-home-settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 5.69L17 10.19V18H15V12H9V18H7V10.19L12 5.69M12 3L2 12H5V20H11V14H13V20H19V12H22L12 3Z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-heart-settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-profile-settings">
+                    <div class="green-circle-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Create Service Page -->
+        <div id="create-service-page" class="screen hidden-screen create-service-screen">
+            <button id="create-service-back-btn" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="create-service-header">
+                <h1>Create Service</h1>
+            </div>
+            <div class="create-service-content">
+                <div class="description-image-placeholder">
+                    Service Image Placeholder
+                    <input type="file" id="create-service-image-upload" accept="image/*" style="position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+                </div>
+
+                <div class="create-service-section">
+                    <label for="create-service-title">Service Title:</label>
+                    <input type="text" id="create-service-title" placeholder="e.g., Park Cleanup Day" class="input-field">
+
+                    <label for="create-service-address">Address:</label>
+                    <input type="text" id="create-service-address" placeholder="e.g., 123 Main St, City, State" class="input-field">
+
+                    <label for="create-service-date">Date:</label>
+                    <input type="date" id="create-service-date" class="input-field">
+
+                    <label for="create-service-time">Time:</label>
+                    <input type="time" id="create-service-time" class="input-field">
+                </div>
+
+                <div class="create-service-section">
+                    <label for="create-service-description">Description:</label>
+                    <textarea id="create-service-description" placeholder="Provide a detailed description of the service." class="input-field"></textarea>
+
+                    <label for="create-service-needs">Needs (comma-separated):</label>
+                    <textarea id="create-service-needs" placeholder="e.g., collect trash, rake leaves, plant flowers" class="input-field"></textarea>
+                </div>
+
+                <button id="create-service-submit-btn" class="btn btn-green mt-5 w-90">Create Service</button>
+            </div>
+            <div class="bottom-nav">
+                <div class="nav-item" id="nav-item-push-pin-create-service">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M17.59 3.59c-.4-.4-1.04-.4-1.44 0L12 7.74 7.85 3.59c-.4-.4-1.04-.4-1.44 0-.4.4-.4 1.04 0 1.44L10.56 9 6.41 13.15c-.4.4-.4 1.04 0 1.44.4.4 1.04.4 1.44 0L12 10.26l4.15 4.15c.4.4 1.04.4 1.44 0 .4-.4.4-1.04 0-1.44L13.44 9l4.15-4.15c.4-.4.4-1.04 0-1.44zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.385 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-message-create-service">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-home-create-service">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 5.69L17 10.19V18H15V12H9V18H7V10.19L12 5.69M12 3L2 12H5V20H11V14H13V20H19V12H22L12 3Z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-heart-create-service">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-profile-create-service">
+                    <div class="green-circle-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Services Created Page -->
+        <div id="services-created-page" class="screen hidden-screen list-screen">
+            <button id="services-created-back-btn" class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="list-header">
+                <h1>Services Created</h1>
+            </div>
+            <div class="list-content" id="services-created-list">
+                <!-- Dynamically populated services will go here -->
+            </div>
+            <div class="bottom-nav">
+                <div class="nav-item" id="nav-item-push-pin-services-created">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M17.59 3.59c-.4-.4-1.04-.4-1.44 0L12 7.74 7.85 3.59c-.4-.4-1.04-.4-1.44 0-.4.4-.4 1.04 0 1.44L10.56 9 6.41 13.15c-.4.4-.4 1.04 0 1.44.4.4 1.04.4 1.44 0L12 10.26l4.15 4.15c.4.4 1.04.4 1.44 0 .4-.4.4-1.04 0-1.44L13.44 9l4.15-4.15c.4-.4.4-1.04 0-1.44zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.385 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-message-services-created">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-home-services-created">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 5.69L17 10.19V18H15V12H9V18H7V10.19L12 5.69M12 3L2 12H5V20H11V14H13V20H19V12H22L12 3Z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-heart-services-created">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <div class="nav-item" id="nav-item-profile-services-created">
+                    <div class="green-circle-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginPage = document.getElementById('login-page');
+            const loginToAccountPage = document.getElementById('login-to-account-page');
+            const communityFeedPage = document.getElementById('community-feed-page');
+            const profilePage = document.getElementById('profile-page');
+            const mapPage = document.getElementById('map-page');
+            const descriptionPage = document.getElementById('description-page');
+            const messagePage = document.getElementById('message-page');
+            const upcomingEventsPage = document.getElementById('upcoming-events-page');
+            const listPage = document.getElementById('list-page');
+            const settingsPage = document.getElementById('settings-page');
+            const createServicePage = document.getElementById('create-service-page');
+            const servicesCreatedPage = document.getElementById('services-created-page'); // New page element
+
+            const groupBtn = document.getElementById('group-btn');
+            const personBtn = document.getElementById('person-btn');
+            const backBtn = document.getElementById('back-btn');
+            const loginBtn = document.getElementById('login-btn');
+            const loginUsernameInput = document.getElementById('login-username');
+            const loginPasswordInput = document.getElementById('login-password');
+
+            const reminderBellIcon = document.getElementById('reminder-bell-icon');
+
+            const navItemPushPin = document.getElementById('nav-item-push-pin');
+            const navItemMessage = document.getElementById('nav-item-message');
+            const navItemHome = document.getElementById('nav-item-home');
+            const navItemHeart = document.getElementById('nav-item-heart');
+            const navItemProfile = document.getElementById('nav-item-profile');
+
+            const navItemPushPinProfile = document.getElementById('nav-item-push-pin-profile');
+            const navItemMessageProfile = document.getElementById('nav-item-message-profile');
+            const navItemHomeProfile = document.getElementById('nav-item-home-profile');
+            const navItemHeartProfile = document.getElementById('nav-item-heart-profile');
+            const navItemProfileProfile = document.getElementById('nav-item-profile-profile');
+            const navItemSettings = document.getElementById('nav-item-settings');
+
+            const navItemPushPinMap = document.getElementById('nav-item-push-pin-map');
+            const navItemMessageMap = document.getElementById('nav-item-message-map');
+            const navItemHomeMap = document.getElementById('nav-item-home-map');
+            const navItemHeartMap = document.getElementById('nav-item-heart-map');
+            const navItemProfileMap = document.getElementById('nav-item-profile-map');
+
+            const navItemPushPinDescription = document.getElementById('nav-item-push-pin-description');
+            const navItemMessageDescription = document.getElementById('nav-item-message-description');
+            const navItemHomeDescription = document.getElementById('nav-item-home-description');
+            const navItemHeartDescription = document.getElementById('nav-item-heart-description');
+            const navItemProfileDescription = document.getElementById('nav-item-profile-description');
+
+            const navItemPushPinMessage = document.getElementById('nav-item-push-pin-message');
+            const navItemMessageMessage = document.getElementById('nav-item-message-message');
+            const navItemHomeMessage = document.getElementById('nav-item-home-message');
+            const navItemHeartMessage = document.getElementById('nav-item-heart-message');
+            const navItemProfileMessage = document.getElementById('nav-item-profile-message');
+
+            const navItemPushPinUpcoming = document.getElementById('nav-item-push-pin-upcoming');
+            const navItemMessageUpcoming = document.getElementById('nav-item-message-upcoming');
+            const navItemHomeUpcoming = document.getElementById('nav-item-home-upcoming');
+            const navItemHeartUpcoming = document.getElementById('nav-item-heart-upcoming');
+            const navItemProfileUpcoming = document.getElementById('nav-item-profile-upcoming');
+
+            const navItemPushPinList = document.getElementById('nav-item-push-pin-list');
+            const navItemMessageList = document.getElementById('nav-item-message-list');
+            const navItemHomeList = document.getElementById('nav-item-home-list');
+            const navItemHeartList = document.getElementById('nav-item-heart-list');
+            const navItemProfileList = document.getElementById('nav-item-profile-list');
+
+            const navItemPushPinSettings = document.getElementById('nav-item-push-pin-settings');
+            const navItemMessageSettings = document.getElementById('nav-item-message-settings');
+            const navItemHomeSettings = document.getElementById('nav-item-home-settings');
+            const navItemHeartSettings = document.getElementById('nav-item-heart-settings');
+            const navItemProfileSettings = document.getElementById('nav-item-profile-settings');
+
+            const navItemPushPinCreateService = document.getElementById('nav-item-push-pin-create-service');
+            const navItemMessageCreateService = document.getElementById('nav-item-message-create-service');
+            const navItemHomeCreateService = document.getElementById('nav-item-home-create-service');
+            const navItemHeartCreateService = document.getElementById('nav-item-heart-create-service');
+            const navItemProfileCreateService = document.getElementById('nav-item-profile-create-service');
+
+            // New nav items for Services Created page
+            const navItemPushPinServicesCreated = document.getElementById('nav-item-push-pin-services-created');
+            const navItemMessageServicesCreated = document.getElementById('nav-item-message-services-created');
+            const navItemHomeServicesCreated = document.getElementById('nav-item-home-services-created');
+            const navItemHeartServicesCreated = document.getElementById('nav-item-heart-services-created');
+            const navItemProfileServicesCreated = document.getElementById('nav-item-profile-services-created');
+
+
+            const profileBackBtn = document.getElementById('profile-back-btn');
+            const mapBackBtn = document.getElementById('map-back-btn');
+            const descriptionBackBtn = document.getElementById('description-back-btn');
+            const messageBackBtn = document.getElementById('message-back-btn');
+            const upcomingEventsBackBtn = document.getElementById('upcoming-events-back-btn');
+            const listBackBtn = document.getElementById('list-back-btn');
+            const settingsBackBtn = document.getElementById('settings-back-btn');
+            const createServiceBackBtn = document.getElementById('create-service-back-btn');
+            const servicesCreatedBackBtn = document.getElementById('services-created-back-btn'); // New back button
+
+            const profileAddIcon = document.getElementById('profile-add-icon');
+            const profileSubNavAddService = document.getElementById('profile-sub-nav-add-service');
+            const profileSubNavViewServices = document.getElementById('profile-sub-nav-view-services'); // Check icon
+
+            const statFollowing = document.getElementById('stat-following');
+            const statFollowers = document.getElementById('stat-followers');
+            const statGroupMembers = document.getElementById('stat-group-members');
+
+            const listPageTitle = document.getElementById('list-page-title');
+            const listContent = document.getElementById('list-content');
+            const servicesCreatedList = document.getElementById('services-created-list'); // Content area for services created
+
+            const profilePicUpload = document.getElementById('profile-pic-upload');
+            const profilePicPreview = document.getElementById('profile-pic-preview');
+            const saveSettingsBtn = document.getElementById('save-settings-btn');
+            const settingUsernameInput = document.getElementById('setting-username');
+            const settingPasswordInput = document.getElementById('setting-password');
+            const togglePasswordVisibilityBtn = document.getElementById('toggle-password-visibility');
+
+            // Profile page display elements
+            const profileDisplayName = document.getElementById('profile-display-name');
+            const profileDisplayBio = document.getElementById('profile-display-bio');
+            const profileAvatarImg = document.getElementById('profile-avatar-img');
+
+            const serviceCompletedSection = document.getElementById('service-completed-section');
+            const currentServiceSectionTitle = document.getElementById('current-service-section-title');
+
+            // Create Service Page elements
+            const createServiceTitleInput = document.getElementById('create-service-title');
+            const createServiceAddressInput = document.getElementById('create-service-address');
+            const createServiceDateInput = document.getElementById('create-service-date');
+            const createServiceTimeInput = document.getElementById('create-service-time');
+            const createServiceDescriptionInput = document.getElementById('create-service-description');
+            const createServiceNeedsInput = document.getElementById('create-service-needs');
+            const createServiceSubmitBtn = document.getElementById('create-service-submit-btn');
+            const createServiceImageUpload = document.getElementById('create-service-image-upload');
+
+
+            let currentUser = {
+                username: '',
+                password: '', // In a real app, never store plain passwords on the client-side
+                name: 'Your Name',
+                birthday: '2000-01-01',
+                bio: 'Quick Bio',
+                location: 'Richmond, VA',
+                organizations: ['Organization A', 'Organization B'],
+                profilePic: 'https://placehold.co/120x120/e0e0e0/999?text=Add+Photo'
+            };
+
+            // Array to store dynamically created services
+            const createdServices = [];
+
+            const followersList = ["Alice Johnson", "Bob Williams", "Charlie Davis", "Diana Prince", "Eve Adams"];
+            const followingList = ["Frank White", "Grace Lee", "Harry King"];
+            const groupMembersList = ["Group Member 1", "Group Member 2", "Group Member 3", "Group Member 4", "Group Member 5"];
+            const likedPostsData = [
+                {
+                    title: "Thanksgiving Food Drive",
+                    address: "123 Elms St., Richmond, VA",
+                    date: "November 27, 2025",
+                    time: "11 am - 3pm",
+                    description: "We will be serving food to those who are in need of food.",
+                    needs: ["package food", "serve food", "direct in parking lot"]
+                },
+                {
+                    title: "Park Cleanup Day",
+                    address: "456 Oak Ave, Townsville, VA",
+                    date: "December 5, 2025",
+                    time: "9 am - 12 pm",
+                    description: "Join us to help clean up the local park and make it beautiful for everyone."
+                },
+                {
+                    title: "Animal Shelter Volunteering",
+                    address: "789 Pine Ln, Villageton, VA",
+                    date: "December 12, 2025",
+                    time: "1 pm - 4 pm",
+                    description: "Help care for animals at the local shelter. Your support makes a difference!"
+                },
+                {
+                    title: "Winter Coat Collection",
+                    address: "Community Hall",
+                    date: "January 10, 2026",
+                    time: "9 am - 5 pm",
+                    description: "Collecting warm coats for those in need during the cold winter months."
+                }
+            ];
+
+
+            const mapPanel = document.getElementById('map-panel');
+            const mapPanelHandle = document.querySelector('.map-panel-handle');
+
+            let isDragging = false;
+            let startY;
+            let initialPanelY;
+
+            let previousScreen = null;
+
+            const showScreen = (screenToShow, animationDirection = 'slide-in-right') => {
+                const allScreens = document.querySelectorAll('.screen');
+                allScreens.forEach(screen => {
+                    if (screen.classList.contains('visible-screen')) {
+                        previousScreen = screen;
+                    }
+                    screen.classList.remove('visible-screen', 'slide-in-right', 'slide-in-left', 'slide-out-right', 'slide-out-left');
+                    screen.classList.add('hidden-screen');
+                });
+
+                screenToShow.classList.remove('hidden-screen');
+                screenToShow.classList.add(animationDirection);
+
+                setTimeout(() => {
+                    screenToShow.classList.add('visible-screen');
+                    screenToShow.classList.remove('slide-in-right', 'slide-in-left', 'slide-out-right', 'slide-out-left');
+                }, 10);
+            };
+
+
+            const navigateToLoginToAccount = () => {
+                showScreen(loginToAccountPage);
+            };
+
+            const navigateBackToLogin = () => {
+                showScreen(loginPage, 'slide-in-left');
+            };
+
+            const navigateToCommunityFeed = () => {
+                showScreen(communityFeedPage, 'slide-in-left');
+            };
+
+            const navigateToProfilePage = () => {
+                // Update profile page elements with current user data before showing the page
+                profileDisplayName.textContent = currentUser.name;
+                profileDisplayBio.textContent = currentUser.bio;
+                profileAvatarImg.src = currentUser.profilePic;
+
+                // Ensure the title is "Service Completed" when navigating to profile page
+                currentServiceSectionTitle.textContent = "Service Completed";
+
+                showScreen(profilePage);
+            };
+
+            const navigateToMapPage = () => {
+                showScreen(mapPage);
+            };
+
+            const navigateToDescriptionPage = (itemData) => {
+                document.getElementById('description-card-title').textContent = itemData.title;
+                document.getElementById('description-card-address').textContent = itemData.address;
+                document.getElementById('description-card-date').textContent = itemData.date;
+                document.getElementById('description-card-time').textContent = itemData.time;
+                document.getElementById('description-card-text').textContent = itemData.description;
+
+                const needsList = document.getElementById('description-card-needs-list');
+                needsList.innerHTML = '';
+                if (itemData.needs && itemData.needs.length > 0) {
+                    itemData.needs.forEach(need => {
+                        const li = document.createElement('li');
+                        li.textContent = need;
+                        needsList.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.textContent = "No specific needs listed.";
+                    needsList.appendChild(li);
+                }
+
+                showScreen(descriptionPage);
+            };
+
+            const navigateToMessagePage = () => {
+                showScreen(messagePage);
+            };
+
+            const navigateToUpcomingEventsPage = () => {
+                showScreen(upcomingEventsPage);
+            };
+
+            const navigateToListPage = (title, data) => {
+                listPageTitle.textContent = title;
+                listContent.innerHTML = '';
+                if (data && data.length > 0) {
+                    data.forEach(itemData => {
+                        const div = document.createElement('div');
+                        div.classList.add('feed-item');
+
+                        if (typeof itemData === 'string') {
+                            div.innerHTML = `<p class="text-gray-800 font-semibold">${itemData}</p>`;
+                        } else if (typeof itemData === 'object' && itemData !== null) {
+                            div.classList.add('clickable-item');
+                            div.dataset.title = itemData.title;
+                            div.dataset.address = itemData.address;
+                            div.dataset.date = itemData.date;
+                            div.dataset.time = itemData.time;
+                            div.dataset.description = itemData.description;
+                            div.dataset.needs = JSON.stringify(itemData.needs || []);
+
+                            const descriptionText = itemData.description ? itemData.description.substring(0, 70) + '...' : 'No description available.';
+
+                            div.innerHTML = `
+                                <h3 class="font-semibold text-lg mb-2">${itemData.title}</h3>
+                                <p class="text-gray-600">${descriptionText}</p>
+                                <div class="w-full h-32 bg-gray-200 rounded-lg mt-4 flex items-center justify-center text-gray-500">
+                                    Image/Content Placeholder
+                                </div>
+                            `;
+                        }
+                        listContent.appendChild(div);
+                    });
+                } else {
+                    const div = document.createElement('div');
+                    div.classList.add('feed-item');
+                    div.textContent = `No ${title.toLowerCase()} found.`;
+                    listContent.appendChild(div);
+                }
+                showScreen(listPage);
+
+                document.querySelectorAll('#list-page .clickable-item').forEach(item => {
+                    item.addEventListener('click', (event) => {
+                        const itemData = {
+                            title: event.currentTarget.dataset.title,
+                            address: event.currentTarget.dataset.address,
+                            date: event.currentTarget.dataset.date,
+                            time: event.currentTarget.dataset.time,
+                            description: event.currentTarget.dataset.description,
+                            needs: JSON.parse(event.currentTarget.dataset.needs || '[]')
+                        };
+                        navigateToDescriptionPage(itemData);
+                    });
+                });
+            };
+
+            const navigateToLikedPostsPage = () => {
+                navigateToListPage('Liked Posts', likedPostsData);
+            };
+
+            const navigateToSettingsPage = () => {
+                // Populate settings fields with current user data
+                document.getElementById('setting-name').value = currentUser.name;
+                document.getElementById('setting-birthday').value = currentUser.birthday;
+                document.getElementById('setting-bio').value = currentUser.bio;
+                document.getElementById('setting-username').value = currentUser.username;
+                document.getElementById('setting-location').value = currentUser.location;
+                document.getElementById('setting-password').value = currentUser.password; // Populate password (for demo)
+                document.getElementById('profile-pic-preview').src = currentUser.profilePic;
+
+                const orgList = document.getElementById('setting-organizations-list');
+                orgList.innerHTML = '';
+                currentUser.organizations.forEach(org => {
+                    const li = document.createElement('li');
+                    li.textContent = org;
+                    orgList.appendChild(li);
+                });
+
+                showScreen(settingsPage);
+            };
+
+            const navigateToCreateServicePage = () => {
+                showScreen(createServicePage);
+            };
+
+            const navigateToServicesCreatedPage = () => {
+                servicesCreatedList.innerHTML = ''; // Clear previous content
+                if (createdServices.length > 0) {
+                    createdServices.forEach(serviceData => {
+                        const div = document.createElement('div');
+                        div.classList.add('feed-item', 'clickable-item');
+                        div.dataset.title = serviceData.title;
+                        div.dataset.address = serviceData.address;
+                        div.dataset.date = serviceData.date;
+                        div.dataset.time = serviceData.time;
+                        div.dataset.description = serviceData.description;
+                        div.dataset.needs = JSON.stringify(serviceData.needs || []);
+
+                        const descriptionText = serviceData.description ? serviceData.description.substring(0, 70) + '...' : 'No description available.';
+
+                        div.innerHTML = `
+                            <h3 class="font-semibold text-lg mb-2">${serviceData.title}</h3>
+                            <p class="text-gray-600">${descriptionText}</p>
+                            <div class="w-full h-32 bg-gray-200 rounded-lg mt-4 flex items-center justify-center text-gray-500">
+                                Service Image Placeholder
+                            </div>
+                        `;
+                        servicesCreatedList.appendChild(div);
+                    });
+                    // Add event listeners to newly created items
+                    document.querySelectorAll('#services-created-list .clickable-item').forEach(item => {
+                        item.addEventListener('click', (event) => {
+                            const itemData = {
+                                title: event.currentTarget.dataset.title,
+                                address: event.currentTarget.dataset.address,
+                                date: event.currentTarget.dataset.date,
+                                time: event.currentTarget.dataset.time,
+                                description: event.currentTarget.dataset.description,
+                                needs: JSON.parse(event.currentTarget.dataset.needs || '[]')
+                            };
+                            navigateToDescriptionPage(itemData);
+                        });
+                    });
+                } else {
+                    const noServicesMessage = document.createElement('div');
+                    noServicesMessage.classList.add('feed-item');
+                    noServicesMessage.textContent = "No services have been created yet.";
+                    servicesCreatedList.appendChild(noServicesMessage);
+                }
+                showScreen(servicesCreatedPage);
+            };
+
+
+            const navigateBackFromProfile = () => {
+                showScreen(communityFeedPage, 'slide-in-left');
+            };
+
+            const navigateBackFromMap = () => {
+                showScreen(communityFeedPage, 'slide-in-left');
+            };
+
+            const navigateBackFromDescription = () => {
+                if (previousScreen) {
+                    showScreen(previousScreen, 'slide-in-left');
+                } else {
+                    navigateToCommunityFeed();
+                }
+            };
+
+            const navigateBackFromMessage = () => {
+                if (previousScreen) {
+                    showScreen(previousScreen, 'slide-in-left');
+                } else {
+                    navigateToCommunityFeed();
+                }
+            };
+
+            const navigateBackFromUpcomingEvents = () => {
+                if (previousScreen) {
+                    showScreen(previousScreen, 'slide-in-left');
+                } else {
+                    navigateToCommunityFeed();
+                }
+            };
+
+            const navigateBackFromList = () => {
+                if (previousScreen) {
+                    showScreen(previousScreen, 'slide-in-left');
+                } else {
+                    navigateToCommunityFeed();
+                }
+            };
+
+            const navigateBackFromSettings = () => {
+                navigateToProfilePage(); // Navigate to profile page after saving settings
+            };
+
+            const navigateBackFromCreateService = () => {
+                navigateToProfilePage(); // Navigate to profile page after creating service
+            };
+
+            const navigateBackFromServicesCreated = () => {
+                navigateToProfilePage(); // Navigate to profile page from services created
+            };
+
+
+            groupBtn.addEventListener('click', navigateToLoginToAccount);
+            personBtn.addEventListener('click', navigateToLoginToAccount);
+            backBtn.addEventListener('click', navigateBackToLogin);
+
+            loginBtn.addEventListener('click', () => {
+                currentUser.username = loginUsernameInput.value;
+                currentUser.password = loginPasswordInput.value; // Storing for demo purposes
+                navigateToCommunityFeed();
+            });
+
+            if (reminderBellIcon) { reminderBellIcon.addEventListener('click', navigateToUpcomingEventsPage); }
+
+            if (navItemPushPin) { navItemPushPin.addEventListener('click', navigateToMapPage); }
+            if (navItemMessage) { navItemMessage.addEventListener('click', navigateToMessagePage); }
+            if (navItemHome) { navItemHome.addEventListener('click', navigateToCommunityFeed); }
+            if (navItemHeart) { navItemHeart.addEventListener('click', navigateToLikedPostsPage); }
+            if (navItemProfile) { navItemProfile.addEventListener('click', navigateToProfilePage); }
+
+            if (navItemPushPinProfile) { navItemPushPinProfile.addEventListener('click', navigateToMapPage); }
+            if (navItemMessageProfile) { navItemMessageProfile.addEventListener('click', navigateToMessagePage); }
+            if (navItemHomeProfile) { navItemHomeProfile.addEventListener('click', navigateToCommunityFeed); }
+            if (navItemHeartProfile) { navItemHeartProfile.addEventListener('click', navigateToLikedPostsPage); }
+            if (navItemProfileProfile) { navItemProfileProfile.addEventListener('click', navigateToProfilePage); }
+            if (navItemSettings) { navItemSettings.addEventListener('click', navigateToSettingsPage); }
+
+            if (navItemPushPinMap) { navItemPushPinMap.addEventListener('click', navigateToMapPage); }
+            if (navItemMessageMap) { navItemMessageMap.addEventListener('click', navigateToMessagePage); }
+            if (navItemHomeMap) { navItemHomeMap.addEventListener('click', navigateToCommunityFeed); }
+            if (navItemHeartMap) { navItemHeartMap.addEventListener('click', navigateToLikedPostsPage); }
+            if (navItemProfileMap) { navItemProfileMap.addEventListener('click', navigateToProfilePage); }
+
+            if (navItemPushPinDescription) { navItemPushPinDescription.addEventListener('click', navigateToMapPage); }
+            if (navItemMessageDescription) { navItemMessageDescription.addEventListener('click', navigateToMessagePage); }
+            if (navItemHomeDescription) { navItemHomeDescription.addEventListener('click', navigateToCommunityFeed); }
+            if (navItemHeartDescription) { navItemHeartDescription.addEventListener('click', navigateToLikedPostsPage); }
+            if (navItemProfileDescription) { navItemProfileDescription.addEventListener('click', navigateToProfilePage); }
+
+            if (navItemPushPinMessage) { navItemPushPinMessage.addEventListener('click', navigateToMapPage); }
+            if (navItemMessageMessage) { navItemMessageMessage.addEventListener('click', navigateToMessagePage); }
+            if (navItemHomeMessage) { navItemHomeMessage.addEventListener('click', navigateToCommunityFeed); }
+            if (navItemHeartMessage) { navItemHeartMessage.addEventListener('click', navigateToLikedPostsPage); }
+            if (navItemProfileMessage) { navItemProfileMessage.addEventListener('click', navigateToProfilePage); }
+
+            if (navItemPushPinUpcoming) { navItemPushPinUpcoming.addEventListener('click', navigateToMapPage); }
+            if (navItemMessageUpcoming) { navItemMessageUpcoming.addEventListener('click', navigateToMessagePage); }
+            if (navItemHomeUpcoming) { navItemHomeUpcoming.addEventListener('click', navigateToCommunityFeed); }
+            if (navItemHeartUpcoming) { navItemHeartUpcoming.addEventListener('click', navigateToLikedPostsPage); }
+            if (navItemProfileUpcoming) { navItemProfileUpcoming.addEventListener('click', navigateToProfilePage); }
+
+            if (navItemPushPinList) { navItemPushPinList.addEventListener('click', navigateToMapPage); }
+            if (navItemMessageList) { navItemMessageList.addEventListener('click', navigateToMessagePage); }
+            if (navItemHomeList) { navItemHomeList.addEventListener('click', navigateToCommunityFeed); }
+            if (navItemHeartList) { navItemHeartList.addEventListener('click', navigateToLikedPostsPage); }
+            if (navItemProfileList) { navItemProfileList.addEventListener('click', navigateToProfilePage); }
+
+            if (navItemPushPinSettings) { navItemPushPinSettings.addEventListener('click', navigateToMapPage); }
+            if (navItemMessageSettings) { navItemMessageSettings.addEventListener('click', navigateToMessagePage); }
+            if (navItemHomeSettings) { navItemHomeSettings.addEventListener('click', navigateToCommunityFeed); }
+            if (navItemHeartSettings) { navItemHeartSettings.addEventListener('click', navigateToLikedPostsPage); }
+            if (navItemProfileSettings) { navItemProfileSettings.addEventListener('click', navigateToProfilePage); }
+
+            if (navItemPushPinCreateService) { navItemPushPinCreateService.addEventListener('click', navigateToMapPage); }
+            if (navItemMessageCreateService) { navItemMessageCreateService.addEventListener('click', navigateToMessagePage); }
+            if (navItemHomeCreateService) { navItemHomeCreateService.addEventListener('click', navigateToCommunityFeed); }
+            if (navItemHeartCreateService) { navItemHeartCreateService.addEventListener('click', navigateToLikedPostsPage); }
+            if (navItemProfileCreateService) { navItemProfileCreateService.addEventListener('click', navigateToProfilePage); }
+
+            // New nav items for Services Created page
+            if (navItemPushPinServicesCreated) { navItemPushPinServicesCreated.addEventListener('click', navigateToMapPage); }
+            if (navItemMessageServicesCreated) { navItemMessageServicesCreated.addEventListener('click', navigateToMessagePage); }
+            if (navItemHomeServicesCreated) { navItemHomeServicesCreated.addEventListener('click', navigateToCommunityFeed); }
+            if (navItemHeartServicesCreated) { navItemHeartServicesCreated.addEventListener('click', navigateToLikedPostsPage); }
+            if (navItemProfileServicesCreated) { navItemProfileServicesCreated.addEventListener('click', navigateToProfilePage); }
+
+
+            profileBackBtn.addEventListener('click', navigateBackFromProfile);
+            mapBackBtn.addEventListener('click', navigateBackFromMap);
+            descriptionBackBtn.addEventListener('click', navigateBackFromDescription);
+            messageBackBtn.addEventListener('click', navigateBackFromMessage);
+            upcomingEventsBackBtn.addEventListener('click', navigateBackFromUpcomingEvents);
+            listBackBtn.addEventListener('click', navigateBackFromList);
+            settingsBackBtn.addEventListener('click', navigateBackFromSettings);
+            createServiceBackBtn.addEventListener('click', navigateBackFromCreateService);
+            servicesCreatedBackBtn.addEventListener('click', navigateBackFromServicesCreated); // New back button listener
+
+
+            if (statFollowing) { statFollowing.addEventListener('click', () => navigateToListPage('Following', followingList)); }
+            if (statFollowers) { statFollowers.addEventListener('click', () => navigateToListPage('Followers', followersList)); }
+            if (statGroupMembers) { statGroupMembers.addEventListener('click', () => navigateToListPage('Group Members', groupMembersList)); }
+
+
+            // Plus sign next to name (decorative, no action)
+            // if (profileAddIcon) {
+            //     profileAddIcon.addEventListener('click', () => {
+            //         navigateToCreateServicePage();
+            //     });
+            // }
+
+            // Plus sign in sub-navigation bar (for Create Service)
+            if (profileSubNavAddService) {
+                profileSubNavAddService.addEventListener('click', () => {
+                    navigateToCreateServicePage();
+                });
+            }
+
+            // Check icon in sub-navigation bar (for Services Created)
+            if (profileSubNavViewServices) {
+                profileSubNavViewServices.addEventListener('click', () => {
+                    navigateToServicesCreatedPage();
+                });
+            }
+
+
+            // Profile Picture Upload Logic
+            if (profilePicUpload) {
+                profilePicUpload.addEventListener('change', (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            if (profilePicPreview) {
+                                profilePicPreview.src = e.target.result;
+                                currentUser.profilePic = e.target.result; // Update current user data
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            // Toggle Password Visibility
+            if (togglePasswordVisibilityBtn && settingPasswordInput) {
+                togglePasswordVisibilityBtn.addEventListener('click', () => {
+                    if (settingPasswordInput.type === 'password') {
+                        settingPasswordInput.type = 'text';
+                        togglePasswordVisibilityBtn.textContent = 'Hide';
+                    } else {
+                        settingPasswordInput.type = 'password';
+                        togglePasswordVisibilityBtn.textContent = 'Show';
+                    }
+                });
+            }
+
+            if (saveSettingsBtn) {
+                saveSettingsBtn.addEventListener('click', () => {
+                    // Update current user data with values from settings fields
+                    currentUser.name = document.getElementById('setting-name').value;
+                    currentUser.birthday = document.getElementById('setting-birthday').value;
+                    currentUser.bio = document.getElementById('setting-bio').value;
+                    currentUser.username = document.getElementById('setting-username').value;
+                    currentUser.location = document.getElementById('setting-location').value;
+                    currentUser.password = document.getElementById('setting-password').value; // Update password (for demo)
+
+                    console.log('Settings Saved:', currentUser);
+                    alert('Settings saved successfully!');
+                });
+            }
+
+            if (createServiceSubmitBtn) {
+                createServiceSubmitBtn.addEventListener('click', () => {
+                    // Collect data from the form
+                    const serviceData = {
+                        title: createServiceTitleInput.value,
+                        address: createServiceAddressInput.value,
+                        date: createServiceDateInput.value,
+                        time: createServiceTimeInput.value,
+                        description: createServiceDescriptionInput.value,
+                        needs: createServiceNeedsInput.value.split(',').map(item => item.trim()).filter(item => item !== '')
+                    };
+                    createdServices.push(serviceData); // Add new service to the array
+                    console.log('New Service Created:', serviceData);
+                    alert('Service created successfully!');
+                    // Optionally, clear the form or navigate back
+                    createServiceTitleInput.value = '';
+                    createServiceAddressInput.value = '';
+                    createServiceDateInput.value = '';
+                    createServiceTimeInput.value = '';
+                    createServiceDescriptionInput.value = '';
+                    createServiceNeedsInput.value = '';
+                    navigateToProfilePage(); // Go back to profile page after creation
+                });
+            }
+
+
+            document.querySelectorAll('#community-feed-page .clickable-item').forEach(item => {
+                item.addEventListener('click', (event) => {
+                    const itemData = {
+                        title: event.currentTarget.dataset.title,
+                        address: event.currentTarget.dataset.address,
+                        date: event.currentTarget.dataset.date,
+                        time: event.currentTarget.dataset.time,
+                        description: event.currentTarget.dataset.description,
+                        needs: JSON.parse(event.currentTarget.dataset.needs || '[]')
+                    };
+                    navigateToDescriptionPage(itemData);
+                });
+            });
+
+            // Re-attach clickable-item listeners for the static service completed section
+            document.querySelectorAll('#service-completed-section .clickable-item').forEach(item => {
+                item.addEventListener('click', (event) => {
+                    const itemData = {
+                        title: event.currentTarget.dataset.title,
+                        address: event.currentTarget.dataset.address,
+                        date: event.currentTarget.dataset.date,
+                        time: event.currentTarget.dataset.time,
+                        description: event.currentTarget.dataset.description,
+                        needs: JSON.parse(event.currentTarget.dataset.needs || '[]')
+                    };
+                    navigateToDescriptionPage(itemData);
+                });
+            });
+
+
+            document.querySelectorAll('#upcoming-events-page .clickable-item').forEach(item => {
+                item.addEventListener('click', (event) => {
+                    const itemData = {
+                        title: event.currentTarget.dataset.title,
+                        address: event.currentTarget.dataset.address,
+                        date: event.currentTarget.dataset.date,
+                        time: event.currentTarget.dataset.time,
+                        description: event.currentTarget.dataset.description,
+                        needs: JSON.parse(event.currentTarget.dataset.needs || '[]')
+                    };
+                    navigateToDescriptionPage(itemData);
+                });
+            });
+
+
+            if (mapPanel && mapPanelHandle) {
+                mapPanelHandle.addEventListener('pointerdown', (e) => {
+                    isDragging = true;
+                    startY = e.clientY;
+                    const transformMatrix = window.getComputedStyle(mapPanel).transform;
+                    if (transformMatrix && transformMatrix !== 'none') {
+                        initialPanelY = parseFloat(transformMatrix.split(',')[5]);
+                    } else {
+                        initialPanelY = mapPanel.offsetHeight - 80;
+                    }
+                    mapPanel.style.transition = 'none';
+                    mapPanel.setPointerCapture(e.pointerId);
+                });
+
+                mapPanel.addEventListener('pointermove', (e) => {
+                    if (!isDragging) return;
+
+                    const dy = e.clientY - startY;
+                    let newY = initialPanelY + dy;
+
+                    const minTranslateY = 0;
+                    const maxTranslateY = mapPanel.offsetHeight - 60;
+
+                    newY = Math.max(minTranslateY, Math.min(newY, maxTranslateY));
+
+                    mapPanel.style.transform = `translateY(${newY}px)`;
+                });
+
+                mapPanel.addEventListener('pointerup', () => {
+                    isDragging = false;
+                    mapPanel.style.transition = 'transform 0.3s ease-out';
+
+                    const currentY = parseFloat(mapPanel.style.transform.replace('translateY(', '').replace('px)', ''));
+                    const panelHeight = mapPanel.offsetHeight;
+                    const collapsedY = panelHeight - 80;
+                    const halfOpenY = panelHeight * 0.5;
+                    const fullyOpenY = 0;
+
+                    if (currentY > halfOpenY + (collapsedY - halfOpenY) / 2) {
+                        mapPanel.style.transform = `translateY(${collapsedY}px)`;
+                    } else if (currentY > fullyOpenY + (halfOpenY - fullyOpenY) / 2) {
+                        mapPanel.style.transform = `translateY(${halfOpenY}px)`;
+                    } else {
+                        mapPanel.style.transform = `translateY(${fullyOpenY}px)`;
+                    }
+                });
+            }
+
+            // Initial screen display
+            showScreen(loginPage, 'slide-in-right');
+        });
+    </script>
+</body>
+</html>
