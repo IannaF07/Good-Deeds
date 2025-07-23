@@ -23,8 +23,8 @@ Here's a mockup and design of the project:
 
 Here's a walkthrough of implemented features:
 
-![Good-Deeds](./gooddeeds.gif)
+![Good-Deeds](./Gooddeeds.gif)
 
 ## Notes and Comments
-
-getting Gemini to output what I exactly what I wanted.
+I will continue to work on this app especially The profiles to make distinct changes between the personal and group pages
+Challenges: getting Gemini to output what I exactly what I wanted.
